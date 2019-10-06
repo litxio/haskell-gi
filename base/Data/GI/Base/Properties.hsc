@@ -8,6 +8,7 @@ module Data.GI.Base.Properties
     , setObjectPropertyUInt
     , setObjectPropertyLong
     , setObjectPropertyULong
+    , setObjectPropertyInt8
     , setObjectPropertyInt32
     , setObjectPropertyUInt32
     , setObjectPropertyInt64
@@ -35,6 +36,7 @@ module Data.GI.Base.Properties
     , getObjectPropertyUInt
     , getObjectPropertyLong
     , getObjectPropertyULong
+    , getObjectPropertyInt8
     , getObjectPropertyInt32
     , getObjectPropertyUInt32
     , getObjectPropertyInt64
@@ -62,6 +64,7 @@ module Data.GI.Base.Properties
     , constructObjectPropertyUInt
     , constructObjectPropertyLong
     , constructObjectPropertyULong
+    , constructObjectPropertyInt8
     , constructObjectPropertyInt32
     , constructObjectPropertyUInt32
     , constructObjectPropertyInt64
@@ -102,7 +105,7 @@ import Data.GI.Base.GClosure (GClosure(..))
 import Data.GI.Base.GVariant (newGVariantFromPtr)
 import Data.GI.Base.Utils (freeMem, convertIfNonNull)
 
-import Foreign (Ptr, FunPtr, Int32, Word32, Int64, Word64, nullPtr,
+import Foreign (Ptr, FunPtr, Int8, Int32, Word32, Int64, Word64, nullPtr,
                 castFunPtrToPtr, castPtrToFunPtr)
 import Foreign.C (CString, withCString)
 import Foreign.C.Types (CInt, CUInt, CLong, CULong)
@@ -239,6 +242,20 @@ constructObjectPropertyInt32 propName int32 =
 getObjectPropertyInt32 :: GObject a => a -> String -> IO Int32
 getObjectPropertyInt32 obj propName =
     getObjectProperty obj propName get_int32 gtypeInt
+
+setObjectPropertyInt8 :: GObject a =>
+                          a -> String -> Int8 -> IO ()
+setObjectPropertyInt8 obj propName int8 =
+    setObjectProperty obj propName int8 set_int8 gtypeInt
+
+constructObjectPropertyInt8 :: String -> Int8 ->
+                                IO (GValueConstruct o)
+constructObjectPropertyInt8 propName int8 =
+    constructObjectProperty propName int8 set_int8 gtypeInt
+
+getObjectPropertyInt8 :: GObject a => a -> String -> IO Int8
+getObjectPropertyInt8 obj propName =
+    getObjectProperty obj propName get_int8 gtypeInt
 
 setObjectPropertyUInt32 :: GObject a =>
                           a -> String -> Word32 -> IO ()

@@ -24,6 +24,8 @@ module Data.GI.Base.GValue
     , get_long
     , set_ulong
     , get_ulong
+    , set_int8
+    , get_int8
     , set_int32
     , get_int32
     , set_uint32
@@ -63,7 +65,7 @@ import Data.Int
 import Data.Text (Text, pack, unpack)
 
 import Foreign.C.Types (CInt(..), CUInt(..), CFloat(..), CDouble(..),
-                        CLong(..), CULong(..))
+                        CLong(..), CULong(..), CChar(..))
 import Foreign.C.String (CString)
 import Foreign.Ptr (Ptr, nullPtr)
 import Foreign.StablePtr (StablePtr, castStablePtrToPtr, castPtrToStablePtr)
@@ -128,6 +130,10 @@ instance IsGValue (Maybe Text) where
 instance IsGValue (Ptr a) where
     toGValue = buildGValue gtypePointer set_pointer
     fromGValue = get_pointer
+
+instance IsGValue Int8 where
+    toGValue = buildGValue gtypeInt set_int8
+    fromGValue = get_int8
 
 instance IsGValue Int32 where
     toGValue = buildGValue gtypeInt set_int32
@@ -229,6 +235,18 @@ set_int gv n = withManagedPtr gv $ flip _set_int n
 
 get_int :: GValue -> IO CInt
 get_int gv = withManagedPtr gv _get_int
+
+foreign import ccall unsafe "g_value_set_int8" _set_int8 ::
+    Ptr GValue -> CChar -> IO ()
+foreign import ccall unsafe "g_value_get_int8" _get_int8 ::
+    Ptr GValue -> IO CChar
+
+set_int8 :: GValue -> Int8 -> IO ()
+set_int8 gv n = withManagedPtr gv $ flip _set_int8 (coerce n)
+
+get_int8 :: GValue -> IO Int8
+get_int8 gv = coerce <$> withManagedPtr gv _get_int8
+
 
 foreign import ccall unsafe "g_value_set_uint" _set_uint ::
     Ptr GValue -> CUInt -> IO ()

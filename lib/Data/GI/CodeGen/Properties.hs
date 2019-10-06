@@ -54,6 +54,7 @@ propTypeStr t = case t of
                                     show n)
    TBasicType TLong -> return "Long"
    TBasicType TULong -> return "ULong"
+   TBasicType TInt8 -> return "Int8"
    TBasicType TInt32 -> return "Int32"
    TBasicType TUInt32 -> return "UInt32"
    TBasicType TInt64 -> return "Int64"
