@@ -236,16 +236,16 @@ set_int gv n = withManagedPtr gv $ flip _set_int n
 get_int :: GValue -> IO CInt
 get_int gv = withManagedPtr gv _get_int
 
-foreign import ccall unsafe "g_value_set_int8" _set_int8 ::
+foreign import ccall unsafe "g_value_set_schar" _set_schar ::
     Ptr GValue -> CChar -> IO ()
-foreign import ccall unsafe "g_value_get_int8" _get_int8 ::
+foreign import ccall unsafe "g_value_get_schar" _get_schar ::
     Ptr GValue -> IO CChar
 
 set_int8 :: GValue -> Int8 -> IO ()
-set_int8 gv n = withManagedPtr gv $ flip _set_int8 (coerce n)
+set_int8 gv n = withManagedPtr gv $ flip _set_schar (coerce n)
 
 get_int8 :: GValue -> IO Int8
-get_int8 gv = coerce <$> withManagedPtr gv _get_int8
+get_int8 gv = coerce <$> withManagedPtr gv _get_schar
 
 
 foreign import ccall unsafe "g_value_set_uint" _set_uint ::
